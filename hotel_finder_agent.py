@@ -32,22 +32,34 @@ def hotel_finder_agent(user_query: str):
     prompt = f"""
 You are a hotel recommendation agent.
 
+Return ONLY valid JSON.
+No markdown. No explanation outside JSON.
+
+Schema:
+{{
+  "hotels": [
+    {{
+      "name": "string",
+      "reason": "string",
+      "source_url": "string"
+    }}
+  ]
+}}
+
+Rules:
+- Exactly 3 hotels
+- Budget under $150 per night
+- Prefer good reviews
+
 User request:
 {user_query}
 
 Search results:
 {search_results}
-
-Task:
-- Recommend exactly 3 hotels
-- Assume budget under $150 per night
-- Prefer good reviews
-- Be concise and practical
-
-Return a short list with reasoning.
 """
 
     return llm.invoke(prompt)
+
 
 # -------------------------
 # 4. Run
